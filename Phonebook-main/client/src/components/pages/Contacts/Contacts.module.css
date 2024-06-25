@@ -1,0 +1,125 @@
+/* Container and Title */
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 800px;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Add Button */
+.addButton {
+    display: inline-block;
+    margin-bottom: 30px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #007aff;
+    background-color: #fff;
+    border: 1px solid #007aff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.addButton:hover {
+    background-color: #007aff;
+    color: #fff;
+}
+
+/* Contacts List */
+.contactsList {
+    margin-top: 20px;
+}
+
+/* Contact Card */
+.contactCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.contactCard:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profilePic {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.contactInfo {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.contactInfo h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.contactInfo p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.contactInfo ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contactInfo li {
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* Buttons */
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.editButton, .deleteButton {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.editButton {
+    background-color: #007aff;
+    color: #fff;
+}
+
+.editButton:hover {
+    background-color: #005bb5;
+}
+
+.deleteButton {
+    background-color: #ff3b30;
+    color: #fff;
+}
+
+.deleteButton:hover {
+    background-color: #c60b00;
+}

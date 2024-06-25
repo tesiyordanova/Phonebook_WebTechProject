@@ -1,0 +1,68 @@
+/* NavBar Styles */
+.navbar {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space elements evenly between left and right */
+    align-items: center; /* Align items vertically center */
+    background-color: #333333; /* Dark background color */
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* Gray border bottom */
+}
+
+.navbar-left {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Align items vertically center */
+}
+
+.navbar-right {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Align items vertically center */
+}
+
+.navbar-nav {
+    list-style-type: none; /* Remove bullet points */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Use flexbox for layout */
+}
+
+.nav-item {
+    margin-right: 10px; /* Add space between items */
+}
+
+.nav-link {
+    color: #fff; /* White text color */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Bold text */
+    padding: 5px 10px; /* Padding inside links */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.nav-link:hover {
+    background-color: #555; /* Darken background on hover */
+    border-radius: 5px; /* Rounded corners on hover */
+}
+
+.user-info {
+    margin-left: auto; /* Push user info to the right */
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Align items vertically center */
+}
+
+.logged-in-as {
+    color: #fff; /* White text color */
+    margin-right: 10px; /* Add space between items */
+}
+
+.logout-btn {
+    background-color: #5e1209; /* Red logout button */
+    color: #fff; /* White text color */
+    border: none; /* Remove button border */
+    padding: 5px 10px; /* Padding inside button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.logout-btn:hover {
+    background-color: #e74c3c; /* Darken background on hover */
+    border-radius: 5px; /* Rounded corners on hover */
+}

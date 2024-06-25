@@ -1,0 +1,45 @@
+/* Home Styles */
+.home-container {
+    display: flex; /* Use flexbox for layout */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    height: 100vh; /* Full viewport height */
+    background-image: url('./yellowpages-phonebook-01.webp'); /* Background image URL */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the background image */
+    padding: 10px;
+    color: #fff; /* White text color */
+    text-align: center; /* Center align text */
+}
+
+.home-content {
+    max-width: 600px; /* Limit content width */
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+    padding: 100px;
+    max-height: 700px;
+}
+
+.home-title {
+    font-size: 2.5rem; /* Large font size for title */
+    margin-bottom: 20px; /* Space below title */
+}
+
+.home-text {
+    font-size: 1.2rem; /* Medium font size for text */
+    line-height: 1.6; /* Line height for readability */
+    margin-bottom: 20px; /* Space below paragraphs */
+}
+
+.home-button {
+    background-color: #b93f0f; /* Blue button background color */
+    color: #fff; /* White text color */
+    border: none; /* Remove button border */
+    padding: 10px 20px; /* Padding inside button */
+    font-size: 1rem; /* Medium font size for button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.home-button:hover {
+    background-color: #a2691f; /* Darken background on hover */
+}
