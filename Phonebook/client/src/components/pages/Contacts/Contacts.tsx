@@ -118,8 +118,8 @@ const Contacts: React.FC = () => {
                             <h3>{letter}</h3>
                             <ul className={styles.contactNamesList}>
                                 {groupedContacts[letter].map((contact) => (
-                                    <li key={contact._id}>
-                                        <span onClick={() => handleContactClick(contact)}>
+                                    <li key={contact._id} onClick={() => handleContactClick(contact)}>
+                                        <span >
                                             {contact.firstName} {contact.lastName}
                                         </span>
                                         <button
