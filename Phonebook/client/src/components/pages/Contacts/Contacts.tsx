@@ -83,14 +83,15 @@ const Contacts: React.FC = () => {
         setSelectedContact(null);
     };
 
-    const handleDeleteButtonClick = async (contactId: string) => {
-            try {
-                await axios.delete(`/contacts/${contactId}`);
-                fetchContacts();
-            } catch (error) {
-                console.error('Error deleting contact:', error);
-            }
-        
+    const handleDeleteButtonClick = async (contactId: string, event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation(); 
+    
+        try {
+            await axios.delete(`/contacts/${contactId}`);
+            fetchContacts();
+        } catch (error) {
+            console.error('Error deleting contact:', error);
+        }
     };
 
     return (
@@ -124,7 +125,7 @@ const Contacts: React.FC = () => {
                                         </span>
                                         <button
                                             className={styles.deleteButton}
-                                            onClick={() => handleDeleteButtonClick(contact._id)}
+                                            onClick={(e) => handleDeleteButtonClick(contact._id, e)}
                                         >
                                             x
                                         </button>
@@ -141,7 +142,7 @@ const Contacts: React.FC = () => {
                 <div className={styles.modalOverlay} onClick={handleCancel}>
                     <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                         <ContactForm
-                            contact={selectedContact} // Pass selectedContact to pre-fill form
+                            contact={selectedContact} 
                             onSubmit={handleContactSubmit}
                             onCancel={handleCancel}
                         />
