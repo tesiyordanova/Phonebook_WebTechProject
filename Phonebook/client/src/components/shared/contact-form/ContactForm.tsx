@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { ContactFormProps } from './ContactForm.types';
 import defaultProfilePicture from '../../../user_profile.png';
+import './ContactForm.styles.css';
 
 interface IContactForm {
     firstName: string;
@@ -129,7 +130,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
     };
 
     return (
-        <>
+        <div className="contact-form-container">
             <form onSubmit={handleSubmit}>
                 <h2>{!!contact ? 'Update Contact' : 'Create Contact'}</h2>
                 <div>
@@ -214,10 +215,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                         Add Phone Number
                     </button>
                 </div>
+                 <div className="bottom">
                 <button type="submit">Save</button>
                 <button type="button" onClick={onCancel}>Cancel</button>
+                </div>
             </form>
-        </>
+        </div>
     );
 }
 

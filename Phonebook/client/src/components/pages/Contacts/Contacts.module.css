@@ -1,4 +1,3 @@
-/* Container and Title */
 .container {
     margin: 0 auto;
     padding: 20px;
@@ -13,31 +12,76 @@
     color: #333;
 }
 
-/* Add Button */
 .addButton {
     display: inline-block;
-    margin-bottom: 30px;
     padding: 10px 20px;
     font-size: 1rem;
-    color: #007aff;
-    background-color: #fff;
-    border: 1px solid #007aff;
+    color: #fff;
+    background-color: #F4A460;
+    border: none;
     border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+     margin-left: 10px;
 }
 
 .addButton:hover {
-    background-color: #007aff;
-    color: #fff;
+    background-color: #A0522D;
 }
 
-/* Contacts List */
+.searchContainer {
+    margin-bottom: 20px;
+}
+
+.searchInput {
+    width: 500px;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 25px;
+    background-color: #f0f0f0;
+    outline: none;
+    transition: width 0.3s ease;
+}
+
+.searchInput:focus {
+    width: 500px;
+}
+
 .contactsList {
     margin-top: 20px;
 }
 
-/* Contact Card */
+.contactsList h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+    padding-right:750px;
+}
+
+.contactNamesList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contactNamesList li {
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 1.2rem;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    text-align:left;
+}
+
+.contactNamesList li:hover {
+    background-color: #f0f0f0;
+}
+
 .contactCard {
     display: flex;
     align-items: center;
@@ -47,7 +91,7 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
 }
 
@@ -90,10 +134,8 @@
     color: #555;
 }
 
-/* Buttons */
 .buttonGroup {
     display: flex;
-    flex-direction: column;
     gap: 10px;
 }
 
@@ -122,4 +164,37 @@
 
 .deleteButton:hover {
     background-color: #c60b00;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+}
+
+.modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 100%;
+    overflow: auto; 
+}
+
+.info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    overflow: auto; 
 }

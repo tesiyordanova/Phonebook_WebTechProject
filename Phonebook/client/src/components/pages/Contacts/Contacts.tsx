@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { IContact } from '../../../models/contact';
 import defaultProfilePicture from '../../../user_profile.png';
 import ContactForm from '../../shared/contact-form/ContactForm';
+import ContactInfo from '../../shared/contact-form/ContactInfo';
 import styles from './Contacts.module.css';
 
 const Contacts: React.FC = () => {
-    const [contacts, setContacts] = React.useState<IContact[] | null>(null);
-    const [selectedContact, setSelectedContact] = React.useState<IContact | null>(null);
-    const [showContactForm, setShowContactForm] = React.useState(false);
+    const [contacts, setContacts] = useState<IContact[] | null>(null);
+    const [selectedContact, setSelectedContact] = useState<IContact | null>(null);
+    const [creatingNewContact, setCreatingNewContact] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         fetchContacts();
@@ -17,71 +19,131 @@ const Contacts: React.FC = () => {
     const fetchContacts = async () => {
         try {
             const res = await axios.get('/contacts');
-            setContacts(res.data.contacts);
-        }
-        catch (error) {
+            const sortedContacts = res.data.contacts.sort((a: IContact, b: IContact) =>
+                a.firstName.localeCompare(b.firstName)
+            );
+            setContacts(sortedContacts);
+        } catch (error) {
             console.error('Error fetching contacts:', error);
         }
     };
 
     const handleContactSubmit = () => {
-        setShowContactForm(false);
         fetchContacts();
+        setCreatingNewContact(false);
+        setSelectedContact(null); 
     };
 
     const handleDeleteContact = async (contactId: string) => {
         try {
             await axios.delete(`/contacts/${contactId}`);
             fetchContacts();
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Error deleting contact:', error);
         }
+    };
+
+    const openContactForm = (contact: IContact | null) => {
+        setSelectedContact(contact);
+        setCreatingNewContact(true);
+    };
+
+    const handleCancel = () => {
+        setCreatingNewContact(false);
+        setSelectedContact(null);
+    };
+
+    const filteredContacts = contacts
+        ? contacts.filter((contact) =>
+              `${contact.firstName} ${contact.lastName}`
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase())
+          )
+        : [];
+
+    const groupContactsByLetter = () => {
+        const groupedContacts: { [letter: string]: IContact[] } = {};
+        filteredContacts.forEach((contact) => {
+            const firstLetter = contact.firstName.charAt(0).toUpperCase();
+            if (!groupedContacts[firstLetter]) {
+                groupedContacts[firstLetter] = [];
+            }
+            groupedContacts[firstLetter].push(contact);
+        });
+        return groupedContacts;
+    };
+
+    const groupedContacts = groupContactsByLetter();
+
+    const handleContactClick = (contact: IContact) => {
+        setSelectedContact(contact);
+    };
+
+    const handleCloseClick = () => {
+        setSelectedContact(null);
     };
 
     return (
         <>
             <div className={styles.container}>
                 <h2 className={styles.title}>Contacts</h2>
-                <button className={styles.addButton} onClick={() => { setSelectedContact(null); setShowContactForm(true) }}>
-                    Create New Contact
-                </button>
+                <div className={styles.searchContainer}>
+                    <input
+                        type="text"
+                        placeholder="Search by name"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className={styles.searchInput}
+                    />
+                    <button
+                        className={styles.addButton}
+                        onClick={() => openContactForm(null)} 
+                    >
+                        Create New Contact
+                    </button>
+                </div>
                 <div className={styles.contactsList}>
-                    {contacts ? (
-                        contacts.map((contact) => (
-                            <div key={contact._id} className={styles.contactCard}>
-                                <img
-                                    src={contact.pictureUrl || defaultProfilePicture}
-                                    alt="Contact image"
-                                    className={`${styles.profilePicture} ${styles.profilePic}`}
-                                />
-                                <div className={styles.contactInfo}>
-                                    <h3>{contact.firstName} {contact.lastName}</h3>
-                                    <p>Address: {contact.address}</p>
-                                    <h4>Phone Numbers:</h4>
-                                    <ul>
-                                        {contact.phoneNumbers.map((phone, index) => (
-                                            <li key={index}>
-                                                {phone.type}: {phone.number}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <div className={styles.buttonGroup}>
-                                    <button className={styles.editButton} onClick={() => { setSelectedContact(contact); setShowContactForm(true) }}>Edit</button>
-                                    <button className={styles.deleteButton} onClick={() => handleDeleteContact(contact._id)}>Delete</button>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No contacts</p>
-                    )}
+                    {Object.keys(groupedContacts).map((letter) => (
+                        <div key={letter}>
+                            <h3>{letter}</h3>
+                            <ul className={styles.contactNamesList}>
+                                {groupedContacts[letter].map((contact) => (
+                                    <li key={contact._id} onClick={() => handleContactClick(contact)}>
+                                        {contact.firstName} {contact.lastName}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                    {filteredContacts.length === 0 && <p>No contacts</p>}
                 </div>
             </div>
 
-            {showContactForm && <ContactForm contact={selectedContact} onSubmit={handleContactSubmit} onCancel={() => setShowContactForm(false)} />}
+            {creatingNewContact && (
+                <div className={styles.modalOverlay} onClick={handleCancel}>
+                    <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+                        <ContactForm
+                            contact={selectedContact} // Pass selectedContact to pre-fill form
+                            onSubmit={handleContactSubmit}
+                            onCancel={handleCancel}
+                        />
+                    </div>
+                </div>
+            )}
+
+            {selectedContact && !creatingNewContact && (
+                <div className={styles.modalOverlay} onClick={() => setSelectedContact(null)}>
+                    <div className={styles.info} onClick={(e) => e.stopPropagation()}>
+                        <ContactInfo 
+                            contact={selectedContact} 
+                            onEditClick={() => openContactForm(selectedContact)} 
+                            onCloseClick={handleCloseClick} 
+                        />
+                    </div>
+                </div>
+            )}
         </>
     );
-}
+};
 
 export default Contacts;
