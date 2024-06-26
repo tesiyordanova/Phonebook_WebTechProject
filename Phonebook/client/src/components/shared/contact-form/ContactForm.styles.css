@@ -22,11 +22,6 @@
     font-weight: bold;
 }
 
-.contact-form-container .required {
-    color: red;
-    font-weight: bold;
-}
-
 .contact-form-container input[type="text"],
 .contact-form-container input[type="file"],
 .contact-form-container select {
@@ -146,13 +141,17 @@
     background-color: #e0a800;
 }
 
-.validation-error {
-    color: red;
-    margin-top: 15px;
-    text-align: center;
+.bottom {
+    display: flex;
+    gap: 10px;
 }
 
-.bottom{
+.required {
+    color: red;
+}
+
+.validation-error {
+    color: red;
     margin-top: 10px;
-    margin-left: 350px;
+    margin-bottom: 10px;
 }

@@ -32,6 +32,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
     });
 
     const [validationError, setValidationError] = useState<string | null>(null);
+    const [inputError, setInputError] = useState<string | null>(null);
 
     useEffect(() => {
         if (contact) {
@@ -107,14 +108,24 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
 
     const validateForm = () => {
         if (
-            !createForm.firstName ||
-            !createForm.address ||
+            !createForm.firstName.trim() ||
             createForm.phoneNumbers.some(phone => !phone.type || phone.number.length !== 10)
         ) {
             setValidationError("You must fill the required fields.");
+            setInputError(null);
+            return false;
+        }
+        if (
+            createForm.firstName.trim() !== createForm.firstName ||
+            createForm.lastName.trim() !== createForm.lastName ||
+            (createForm.address && createForm.address.trim() !== createForm.address)
+        ) {
+            setValidationError(null);
+            setInputError("Wrong input. Try again.");
             return false;
         }
         setValidationError(null);
+        setInputError(null);
         return true;
     };
 
@@ -201,7 +212,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                         name="address"
                         value={createForm.address}
                         onChange={handleInputChange}
-                        required
                     />
                 </div>
                 <div>
@@ -243,13 +253,18 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                         {validationError}
                     </div>
                 )}
+                {inputError && (
+                    <div className="validation-error">
+                        {inputError}
+                    </div>
+                )}
                 <div className="bottom">
-                    <button type="submit">Save</button>
+                    <button type="submit">{contact ? 'Update' : 'Save'}</button>
                     <button type="button" onClick={onCancel}>Cancel</button>
                 </div>
             </form>
         </div>
     );
-}
+};
 
 export default ContactForm;
