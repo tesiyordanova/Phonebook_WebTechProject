@@ -58,8 +58,7 @@
 }
 
 .contact-form-container button[type="button"] {
-    background-color: #dc3545; /* Change button type color */
-    color: #fff;
+    background-color: #f4a460; /* Changed button type color */
 }
 
 .bottom {
@@ -72,4 +71,5 @@
     font-size: 14px;
     margin-top: 5px;
     margin-bottom: 0;
+    display: block; /* Ensures error messages appear above the input fields */
 }

@@ -109,8 +109,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
         if (!createForm.firstName.trim()) {
             errors.firstName = 'Invalid input.';
         }
-        if (!createForm.phoneNumbers.every(phone => phone.type && phone.number.length === 10)) {
-            errors.phoneNumbers = 'Invalid input.';
+        if (!createForm.phoneNumbers.every((phone, index) => phone.type && phone.number.length === 10)) {
+            createForm.phoneNumbers.forEach((phone, index) => {
+                if (!phone.type) errors[`phoneType_${index}`] = 'Invalid input.';
+                if (phone.number.length !== 10) errors[`phoneNumber_${index}`] = 'Invalid input.';
+            });
         }
 
         if (Object.keys(errors).length > 0) {
