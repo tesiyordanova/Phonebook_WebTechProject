@@ -3,8 +3,8 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0; 
-    background-image: url('https://img.freepik.com/premium-photo/elegant-white-abstract-background_1032986-123407.jpg'); 
+    background-color: #f0f0f0;
+    background-image: url('https://img.freepik.com/premium-photo/elegant-white-abstract-background_1032986-123407.jpg');
     background-size: cover;
     background-position: center;
     font-family: 'Arial', sans-serif;
@@ -12,12 +12,12 @@
 }
 
 .register-content {
-    max-width: 600px;
-    background-color: rgba(255, 255, 255, 0.9); 
-    padding: 40px;
-    text-align: center;
+    max-width: 700px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 50px;
+    text-align: left;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .register-content h2 {
@@ -33,21 +33,25 @@
 }
 
 .form-group {
-    display: center;
-    align-items: center;
-    margin-bottom: 20px;
-    text-align: left;
+    width: 100%;
+    margin-bottom: 20px; 
+    position: relative;
 }
 
+.form-group:not(:last-child) {
+    margin-bottom: 40px; 
+}
+
+
 .form-group label {
-    display: flex;
-    margin-bottom: 5px;
+    display: block;
+    margin-bottom:10px;
 }
 
 .form-group input[type="text"],
 .form-group input[type="password"] {
     width: 100%;
-    padding: 12px; 
+    padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
@@ -55,7 +59,7 @@
 }
 
 .signup-button {
-    background-color: #7a1919; 
+    background-color: #7a1919;
     color: #ffffff;
     border: none;
     padding: 10px 20px;
@@ -63,10 +67,12 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 200px;
 }
 
 .signup-button:hover {
-    background-color: #A0522D; 
+    background-color: #a0522d;
 }
 
 .login-link {
@@ -79,3 +85,22 @@
     text-decoration: none;
 }
 
+.required {
+    color: red;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 5px; 
+    display: none;
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    width: 100%; 
+    text-align: left; 
+}
+
+.error-message.active {
+    display: block;
+}
