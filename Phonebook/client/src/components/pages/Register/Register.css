@@ -1,0 +1,80 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0; 
+    background-image: url('https://img.freepik.com/premium-photo/elegant-white-abstract-background_1032986-123407.jpg'); /* Replace with your background image URL */
+    background-size: cover;
+    background-position: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.register-content {
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.9); 
+    padding: 40px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
+}
+
+.register-content h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-group {
+    display: center;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 12px; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.signup-button {
+    background-color: #7a1919; /* Adjust button background color */
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+    background-color: #5548c8; /* Adjust hover background color */
+}
+
+.login-link {
+    margin-top: 10px;
+    font-weight: normal;
+    text-align: center;
+}
+
+.login-link a {
+    text-decoration: none; /* Remove underline from "Login here" link */
+}
