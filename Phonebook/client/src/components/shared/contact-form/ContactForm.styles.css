@@ -54,7 +54,7 @@
     margin-right: 10px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: #033517;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -62,7 +62,8 @@
 }
 
 .contact-form-container button[type="button"] {
-    background-color: #f4a460; /* Changed button type color */
+    background-color: #f4a460; 
+    border-radius: 20px;
 }
 
 .bottom {
@@ -78,3 +79,47 @@
     text-align: left; /* Ensure the error message aligns with the input field */
     display: block; /* Display the error message as a block element */
 }
+
+.contact-form-container button[type="button"]:hover {
+    background-color: #A0522D; /* Change the hover color if needed */
+}
+
+.bottom button[type="submit"] {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #6B8E23;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+     margin-left: 10px;
+}
+
+.bottom button[type="submit"]:hover {
+    background-color: #8FBC8F;
+}
+
+.bottom button[type="button"] {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #A52A2A;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.bottom button[type="button"] {
+    background-color: #800000; /* Change the hover color if needed */
+}
+
+
+.bottom{
+    margin-top: 10px;
+    margin-left: 350px;
+}
+

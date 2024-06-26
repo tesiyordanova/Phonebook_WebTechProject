@@ -34,10 +34,11 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ contact, onEditClick, onClose
                     </div>
                 ))}
             </div>
-            <div className={styles.address}>
+            <label>{address}</label>
+            {address && <div className={styles.address}>
                 <label>Address:</label> <br />
                 <label>{address}</label>
-            </div>
+            </div>}
         </div>
     );
 };
