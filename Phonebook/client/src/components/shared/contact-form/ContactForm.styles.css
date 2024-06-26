@@ -23,7 +23,7 @@
 }
 
 .contact-form-container .required {
-    color: red;
+    color: #D2B48C;
 }
 
 .contact-form-container input[type="text"],
@@ -58,7 +58,7 @@
 }
 
 .contact-form-container button[type="button"] {
-    background-color: #dc3545; /* Change button type color */
+    background-color: #D2B48C; /* Change button type color */
     color: #fff;
 }
 
