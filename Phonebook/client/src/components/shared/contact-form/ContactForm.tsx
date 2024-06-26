@@ -7,7 +7,7 @@ import './ContactForm.styles.css';
 interface IContactForm {
     firstName: string;
     lastName: string;
-    address: string;
+    address?: string;
     phoneNumbers: {
         type: string;
         number: string;
@@ -31,8 +31,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
         deletePicture: false
     });
 
-    const [validationError, setValidationError] = useState('');
-    const [inputError, setInputError] = useState('');
+    const [inputError, setInputError] = useState<string>('');
 
     useEffect(() => {
         if (contact) {
@@ -40,11 +39,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                 firstName: contact.firstName,
                 lastName: contact.lastName || '',
                 address: contact.address || '',
-                phoneNumbers: contact.phoneNumbers,
-                pictureFile: null,
-                deletePicture: false
+                phoneNumbers: contact.phoneNumbers
             });
-        } else {
+        }
+        else {
             setCreateForm({
                 firstName: '',
                 lastName: '',
@@ -54,38 +52,39 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                         type: '',
                         number: ''
                     }
-                ],
-                pictureFile: null,
-                deletePicture: false
+                ]
             });
         }
     }, [contact]);
 
-    const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
-
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null); 
+  
     const fileInput = useRef<HTMLInputElement>(null);
-
+    
     const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length) {
-            setCreateForm({ ...createForm, pictureFile: event.target.files[0] });
-            setImagePreviewUrl(URL.createObjectURL(event.target.files[0]));
-        } else {
-            setCreateForm({ ...createForm, pictureFile: null });
-            setImagePreviewUrl(null);
-        }
+      if (event.target.files && event.target.files.length) {
+        setCreateForm({ ...createForm, pictureFile: event.target.files[0] });
+        setImagePreviewUrl(window.URL.createObjectURL(event.target.files[0]));
+      } else {
+        setCreateForm({ ...createForm, pictureFile: null });
+        setImagePreviewUrl(null);
+      }
     };
 
     const onRemovePictureClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event?.preventDefault();
-        setCreateForm({ ...createForm, pictureFile: null, deletePicture: true });
-        setImagePreviewUrl(null);
-        fileInput.current!.value = '';
+      event?.preventDefault();
+      setCreateForm({ ...createForm, pictureFile: null, deletePicture: true });
+      setImagePreviewUrl(null);
+      fileInput.current!.value = '';
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setCreateForm({ ...createForm, [name]: value });
-    };
+        if (inputError && (name === 'firstName' || name === 'lastName' || name === 'address')) {
+            setInputError('');
+        }
+    }
 
     const handlePhoneNumberChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -101,69 +100,56 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
     const handleRemovePhoneNumber = (index: number) => {
         const phoneNumbers = createForm.phoneNumbers.filter((_, i) => i !== index);
         setCreateForm({ ...createForm, phoneNumbers });
-    };
-
-    const validateForm = () => {
-        let isValid = true;
-        setValidationError('');
-        setInputError('');
-
-        if (!createForm.firstName.trim() || createForm.phoneNumbers.some(phone => !phone.type.trim() || !phone.number.trim())) {
-            setValidationError('You must fill the required fields.');
-            isValid = false;
-        }
-
-        if (
-            createForm.firstName.trim().length > 32 ||
-            createForm.lastName.trim().length > 32 ||
-            (createForm.address && createForm.address.trim().length > 256) ||
-            createForm.phoneNumbers.some(phone => phone.number.trim().length !== 10 || isNaN(Number(phone.number.trim())))
-        ) {
-            setInputError('Wrong input. Try again.');
-            isValid = false;
-        }
-
-        return isValid;
-    };
+    }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!validateForm()) {
+        // Validate required fields
+        if (!createForm.firstName.trim() || !createForm.phoneNumbers.every(phone => phone.type && phone.number.length === 10)) {
+            setInputError('You must fill the required fields.');
             return;
         }
 
         try {
             const formData = new FormData();
             formData.append('firstName', createForm.firstName);
-            formData.append('lastName', createForm.lastName);
-            formData.append('address', createForm.address || '');
+            if (createForm.lastName.trim()) {
+                formData.append('lastName', createForm.lastName);
+            }
+            if (createForm.address?.trim()) {
+                formData.append('address', createForm.address);
+            }
             formData.append('phoneNumbers', JSON.stringify(createForm.phoneNumbers));
-
             if (createForm.deletePicture) {
                 formData.append('deletePicture', 'true');
-            }
-
+            }            
             if (createForm.pictureFile) {
                 formData.append('pictureFile', createForm.pictureFile);
             }
-
+            
             if (contact) {
                 await axios.put(`/contacts/${contact._id}`, formData);
-            } else {
-                await axios.post('/contacts', formData);
+                onSubmit();
             }
-
-            onSubmit();
+            else {
+                await axios.post('/contacts', formData);
+                onSubmit();
+            }
         } catch (error) {
             console.error('Error creating contact:', error);
         }
     };
 
+    const handleCancel = () => {
+        setInputError('');
+        onCancel();
+    }
+
     return (
         <div className="contact-form-container">
             <form onSubmit={handleSubmit}>
-                <h2>{contact ? 'Update Contact' : 'Create Contact'}</h2>
+                <h2>{!!contact ? 'Update Contact' : 'Create Contact'}</h2>
                 <div>
                     <label>First Name: <span className="required">*</span></label>
                     <input
@@ -186,13 +172,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                 <div>
                     <label>Picture:</label>
                     <div>
-                        {imagePreviewUrl ? (
-                            <img src={imagePreviewUrl} alt="Contact" width="100px" height="100px" />
-                        ) : contact?.pictureUrl && !createForm.deletePicture ? (
-                            <img src={contact.pictureUrl} alt="Contact" width="100px" height="100px" />
-                        ) : (
-                            <img src={defaultProfilePicture} alt="Contact" width="100px" height="100px" />
-                        )}
+                    { imagePreviewUrl
+                        ? <img src={imagePreviewUrl} alt="Contact image" width={'100px'} height={'100px'}/>
+                        : contact?.pictureUrl && !createForm.deletePicture
+                            ? <img src={contact?.pictureUrl} alt="Contact image" width={'100px'} height={'100px'}/>
+                            : <img src={defaultProfilePicture} alt="Contact image" width={'100px'} height={'100px'} />}
                     </div>
                     <button type="button" onClick={() => fileInput.current?.click()}>Select Picture</button>
                     <button type="button" onClick={onRemovePictureClick}>Remove Picture</button>
@@ -215,7 +199,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                     />
                 </div>
                 <div>
-                    <h4>Phone Numbers: <span className="required">*</span></h4>
+                    <h4>Phone Numbers:</h4>
                     {createForm.phoneNumbers.map((phone, index) => (
                         <div key={index}>
                             <select
@@ -248,15 +232,14 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                         Add Phone Number
                     </button>
                 </div>
-                {validationError && <div className="validation-error">{validationError}</div>}
-                {inputError && <div className="validation-error">{inputError}</div>}
                 <div className="bottom">
-                    <button type="submit">{contact ? 'Update' : 'Save'}</button>
-                    <button type="button" onClick={onCancel}>Cancel</button>
+                    {(inputError && !createForm.firstName.trim()) && <p className="validation-error">{inputError}</p>}
+                    <button type="submit">Save</button>
+                    <button type="button" onClick={handleCancel}>Cancel</button>
                 </div>
             </form>
         </div>
     );
-};
+}
 
 export default ContactForm;

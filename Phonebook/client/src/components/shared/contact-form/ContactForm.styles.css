@@ -58,100 +58,18 @@
 }
 
 .contact-form-container button[type="button"] {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1rem;
+    background-color: #dc3545; /* Change button type color */
     color: #fff;
-    background-color: #F4A460;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.contact-form-container button[type="button"]:hover {
-    background-color: #A0522D;
-}
-
-.bottom button[type="submit"] {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #6B8E23;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-     margin-left: 10px;
-}
-
-.bottom button[type="submit"]:hover {
-    background-color: #8FBC8F;
-}
-
-.bottom button[type="button"] {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #A52A2A;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.bottom button[type="button"] {
-    background-color: #800000; 
-}
-
-.contact-form-container .phone-numbers-container {
-    margin-top: 15px;
-}
-
-.contact-form-container .phone-numbers-container h4 {
-    margin-bottom: 10px;
-}
-
-.contact-form-container .phone-numbers-container div {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.contact-form-container .phone-numbers-container select {
-    flex: 1;
-    margin-right: 10px;
-}
-
-.contact-form-container .phone-numbers-container input[type="text"] {
-    flex: 2;
-    margin-right: 10px;
-}
-
-.contact-form-container .phone-numbers-container button {
-    padding: 6px 12px;
-    margin-left: 10px;
-    background-color: #ffc107;
-    color: #212529;
-    border: none;
-    border-radius: 4px;
-}
-
-.contact-form-container .phone-numbers-container button:hover {
-    background-color: #e0a800;
 }
 
 .bottom {
     margin-top: 10px;
-    margin-left: 350px;
+    text-align: center;
 }
 
 .validation-error {
     color: red;
     font-size: 14px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 0;
 }
