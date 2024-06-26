@@ -1,0 +1,73 @@
+
+.profilePicture {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.profilePicture img {
+    border-radius: 50%;
+    max-width: 200px;
+}
+
+.name {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+    font-family: "Monaco";
+}
+
+.phoneNumbers {
+    margin-bottom: 15px;
+}
+
+.phoneNumbers div {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background-color: #D2B48C;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.phoneNumber {
+    font-family: "Arial", sans-serif; 
+    font-size: 1.4em; 
+    margin-left: 10px;
+}
+
+.address {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background-color: #C0C0C0;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.editButton {
+    background-color: #C0C0C0;
+    color: white;
+    border: none;
+    margin-left: 270px;
+    font-size: 1.4em; 
+}
+
+.closeButton {
+    background-color: #C0C0C0;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1.4em; 
+}
+
+.top {
+    background-color: #C0C0C0;
+    padding: 10px; 
+    border-radius: 4px; 
+}
+
+.top-buttons {
+    display: flex;
+    align-items: center;
+}

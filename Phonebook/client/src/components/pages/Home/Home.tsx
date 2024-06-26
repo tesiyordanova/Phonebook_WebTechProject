@@ -1,12 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { logout, selectUser } from '../../../store/features/userSlice';
 import './Home.css'; // Import your CSS file for styling
 
 const Home: React.FC = () => {
+    const username = useAppSelector(selectUser)?.username;
+    const isLoggedIn = !!username;
     const navigate = useNavigate();
 
     const handleGetStarted = () => {
-        navigate('/contacts');
+        if (isLoggedIn) {
+            navigate('/contacts'); 
+        } else {
+            navigate('/login'); 
+        }
     };
 
     return (
