@@ -89,6 +89,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
         const phoneNumbers = [...createForm.phoneNumbers];
         phoneNumbers[index] = { ...phoneNumbers[index], [name]: value };
         setCreateForm({ ...createForm, phoneNumbers });
+        setInputErrors(prevErrors => ({ ...prevErrors, [`phoneType_${index}`]: '', [`phoneNumber_${index}`]: '' }));
     };
 
     const handleAddPhoneNumber = () => {
@@ -157,7 +158,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
             <form onSubmit={handleSubmit} noValidate>
                 <h2>{!!contact ? 'Update Contact' : 'Create Contact'}</h2>
                 <div>
-                    <label>First Name: {inputErrors.firstName && <span className="validation-error">{inputErrors.firstName}</span>}</label>
+                    <label>First Name{createForm.firstName && <span style={{ color: 'red' }}>*</span>}:</label>
                     <input
                         type="text"
                         name="firstName"
@@ -165,6 +166,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                         onChange={handleInputChange}
                         required
                     />
+                    {inputErrors.firstName && <span className="validation-error">{inputErrors.firstName}</span>}
                 </div>
                 <div>
                     <label>Last Name:</label>
@@ -241,8 +243,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                     </button>
                 </div>
                 <div className="bottom">
-                    {inputErrors.firstName && <p className="validation-error">{inputErrors.firstName}</p>}
-                    {inputErrors.phoneNumbers && <p className="validation-error">{inputErrors.phoneNumbers}</p>}
                     <button type="submit">Save</button>
                     <button type="button" onClick={handleCancel}>Cancel</button>
                 </div>
