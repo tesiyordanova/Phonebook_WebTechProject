@@ -72,4 +72,5 @@
     margin-top: 5px;
     margin-bottom: 0;
     text-align: left; /* Ensure the error message aligns with the input field */
+    display: block; /* Display the error message as a block element */
 }
