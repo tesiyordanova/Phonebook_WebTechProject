@@ -37,7 +37,7 @@ const Home: React.FC = () => {
                     interface and powerful features. Stay connected and 
                     organized like never before with Phonebook!
                 </p>
-                <button className="home-button" onClick={handleGetStarted}>Get Started</button>
+                <button className="home-button" onClick={handleGetStarted}>{isLoggedIn ? 'Visit Contacts' : 'Get Started'}</button>
             </div>
         </div>
     );
