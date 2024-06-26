@@ -96,6 +96,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
         setCreateForm({ ...createForm, phoneNumbers: [...createForm.phoneNumbers, { type: '', number: '' }] });
     };
 
+    
     const handleRemovePhoneNumber = (index: number) => {
         const phoneNumbers = createForm.phoneNumbers.filter((_, i) => i !== index);
         setCreateForm({ ...createForm, phoneNumbers });

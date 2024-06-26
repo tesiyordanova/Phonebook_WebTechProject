@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../store/hooks';
 import { login } from '../../../store/features/userSlice';
 import './Login.css';
+import { error } from 'console';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -33,8 +35,10 @@ const Login: React.FC = () => {
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.error('Error logging in:', error.response?.data);
+                setErrorMessage(error.response?.data);
             } else {
                 console.error('Error logging in:', error);
+                setErrorMessage('An error occurse');
             }
         }
     };
@@ -49,6 +53,7 @@ const Login: React.FC = () => {
                 <div className="login-left-content">
                     <form onSubmit={handleSubmit} className="login-form">
                         <h2>Login</h2>
+            <div className="log-error">{errorMessage}</div>
                         <div className="form-group">
                             <label htmlFor="username">Username:</label>
                             <input

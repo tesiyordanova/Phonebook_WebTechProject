@@ -83,6 +83,16 @@ const Contacts: React.FC = () => {
         setSelectedContact(null);
     };
 
+    const handleDeleteButtonClick = async (contactId: string) => {
+            try {
+                await axios.delete(`/contacts/${contactId}`);
+                fetchContacts();
+            } catch (error) {
+                console.error('Error deleting contact:', error);
+            }
+        
+    };
+
     return (
         <>
             <div className={styles.container}>
@@ -108,8 +118,16 @@ const Contacts: React.FC = () => {
                             <h3>{letter}</h3>
                             <ul className={styles.contactNamesList}>
                                 {groupedContacts[letter].map((contact) => (
-                                    <li key={contact._id} onClick={() => handleContactClick(contact)}>
-                                        {contact.firstName} {contact.lastName}
+                                    <li key={contact._id}>
+                                        <span onClick={() => handleContactClick(contact)}>
+                                            {contact.firstName} {contact.lastName}
+                                        </span>
+                                        <button
+                                            className={styles.deleteButton}
+                                            onClick={() => handleDeleteButtonClick(contact._id)}
+                                        >
+                                            x
+                                        </button>
                                     </li>
                                 ))}
                             </ul>
