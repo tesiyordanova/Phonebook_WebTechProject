@@ -83,6 +83,17 @@ const Contacts: React.FC = () => {
         setSelectedContact(null);
     };
 
+    const handleDeleteButtonClick = async (contactId: string, event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation(); 
+    
+        try {
+            await axios.delete(`/contacts/${contactId}`);
+            fetchContacts();
+        } catch (error) {
+            console.error('Error deleting contact:', error);
+        }
+    };
+
     return (
         <>
             <div className={styles.container}>
@@ -109,7 +120,15 @@ const Contacts: React.FC = () => {
                             <ul className={styles.contactNamesList}>
                                 {groupedContacts[letter].map((contact) => (
                                     <li key={contact._id} onClick={() => handleContactClick(contact)}>
-                                        {contact.firstName} {contact.lastName}
+                                        <span >
+                                            {contact.firstName} {contact.lastName}
+                                        </span>
+                                        <button
+                                            className={styles.deleteButton}
+                                            onClick={(e) => handleDeleteButtonClick(contact._id, e)}
+                                        >
+                                            x
+                                        </button>
                                     </li>
                                 ))}
                             </ul>
@@ -123,7 +142,7 @@ const Contacts: React.FC = () => {
                 <div className={styles.modalOverlay} onClick={handleCancel}>
                     <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                         <ContactForm
-                            contact={selectedContact} // Pass selectedContact to pre-fill form
+                            contact={selectedContact} 
                             onSubmit={handleContactSubmit}
                             onCancel={handleCancel}
                         />

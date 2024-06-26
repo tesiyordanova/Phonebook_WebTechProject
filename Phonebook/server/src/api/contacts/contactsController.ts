@@ -192,7 +192,6 @@ function saveContactPicture(file: Express.Multer.File, userId: string, contact: 
     let savedSuccessfully = true;
     fs.rename(uploadedFilename, newFilePath, (err) => {
         if (err) {
-            console.log(err);
             savedSuccessfully = false;
         }
     });

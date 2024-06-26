@@ -8,6 +8,7 @@ const Register: React.FC = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [usernameError, setUsernameError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
@@ -30,8 +31,8 @@ const Register: React.FC = () => {
 
     const validatePassword = (password: string): string | null => {
         if (!password) return null; // Skip validation if empty
-        if (password.length <= 4) {
-            return 'Password must be more than 4 characters long.';
+        if (password.length <= 7) {
+            return 'Password must be at least 8 characters long.';
         }
         if (!/[A-Z]/.test(password)) {
             return 'Password must contain at least one uppercase letter.';
@@ -81,7 +82,7 @@ const Register: React.FC = () => {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-
+    
         // Validate fields before submission
         setUsernameError(validateUsername(username));
         setPasswordError(validatePassword(password));
@@ -90,32 +91,35 @@ const Register: React.FC = () => {
         } else {
             setConfirmPasswordError(null);
         }
-
+    
         // Check if there are any errors
         if (usernameError || passwordError || confirmPasswordError) {
             setError('Please fix the errors above before submitting.');
             return;
         }
-
+    
         try {
             const response = await axios.post('/auth/signup', {
                 username,
                 password
             });
-
+    
             if (response.status === 201) {
-                navigate('/login');
+                setSuccessMessage('Registration successful! You are now ready to log in.');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 5000); // Redirect after 5 seconds
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                setError(error.response?.data.message || 'An error occurred.');
+                if (error.response?.status === 400 && error.response.data === 'Username already exists!') {
+                    setUsernameError('Username already exists. Please choose another.');
+                } else {
+                    setError(error.response?.data.message || 'An error occurred.');
+                }
             }
             console.error('Error registering:', error);
         }
-    };
-
-    const handleLogIn = () => {
-        navigate('/login'); 
     };
 
     return (
@@ -157,8 +161,9 @@ const Register: React.FC = () => {
                         <p className={`error-message ${confirmPasswordError ? 'active' : ''}`}>{confirmPasswordError}</p>
                     </div>
                     {error && <p className="error-message">{error}</p>}
+                    {successMessage && <p className="success-message">{successMessage}</p>}
                     <button type="submit" className="signup-button">Sign Up</button>
-                    <div className="login-link" onClick={handleLogIn}>
+                    <div className="login-link">
                         <span>Already have an account? <u>Login here</u></span>
                     </div>
                 </form>
