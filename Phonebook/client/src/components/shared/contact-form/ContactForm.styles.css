@@ -22,6 +22,10 @@
     font-weight: bold;
 }
 
+.contact-form-container .required {
+    color: red;
+}
+
 .contact-form-container input[type="text"],
 .contact-form-container input[type="file"],
 .contact-form-container select {
@@ -142,16 +146,12 @@
 }
 
 .bottom {
-    display: flex;
-    gap: 10px;
-}
-
-.required {
-    color: red;
+    margin-top: 10px;
+    margin-left: 350px;
 }
 
 .validation-error {
     color: red;
-    margin-top: 10px;
+    font-size: 14px;
     margin-bottom: 10px;
 }
