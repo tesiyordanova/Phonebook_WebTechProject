@@ -81,9 +81,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setCreateForm({ ...createForm, [name]: value });
-        if (inputError && (name === 'firstName' || name === 'lastName' || name === 'address')) {
-            setInputError('');
-        }
+        setInputError('');
     }
 
     const handlePhoneNumberChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -107,7 +105,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
 
         // Validate required fields
         if (!createForm.firstName.trim() || !createForm.phoneNumbers.every(phone => phone.type && phone.number.length === 10)) {
-            setInputError('You must fill the required fields.');
+            setInputError('Invalid input.');
             return;
         }
 
@@ -148,7 +146,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
 
     return (
         <div className="contact-form-container">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} noValidate>
                 <h2>{!!contact ? 'Update Contact' : 'Create Contact'}</h2>
                 <div>
                     <label>First Name: <span className="required">*</span></label>
@@ -199,7 +197,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                     />
                 </div>
                 <div>
-                    <h4>Phone Numbers:</h4>
+                    <h4>Phone Numbers: <span className="required">*</span></h4>
                     {createForm.phoneNumbers.map((phone, index) => (
                         <div key={index}>
                             <select
@@ -233,7 +231,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                     </button>
                 </div>
                 <div className="bottom">
-                    {(inputError && !createForm.firstName.trim()) && <p className="validation-error">{inputError}</p>}
+                    {inputError && <p className="validation-error">{inputError}</p>}
                     <button type="submit">Save</button>
                     <button type="button" onClick={handleCancel}>Cancel</button>
                 </div>
