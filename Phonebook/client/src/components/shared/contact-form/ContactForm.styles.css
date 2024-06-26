@@ -1,6 +1,12 @@
 .contact-form-container {
+    position: fixed; /* Fixed position ensures it stays centered on scroll */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Centering trick */
     max-width: 600px;
-    margin: 0 auto;
+    width: 90%; /* Adjust width as needed */
+    max-height: 80vh; /* Set maximum height to 80% of viewport height */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
     padding: 20px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -27,7 +33,7 @@
 .contact-form-container input[type="text"],
 .contact-form-container input[type="file"],
 .contact-form-container select {
-    width: calc(100% - 20px); /* Adjusted to account for padding */
+    width: 100%; /* Full width */
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
