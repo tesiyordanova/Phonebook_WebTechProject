@@ -158,7 +158,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
             <form onSubmit={handleSubmit} noValidate>
                 <h2>{!!contact ? 'Update Contact' : 'Create Contact'}</h2>
                 <div>
-                    <label>First Name{createForm.firstName && <span style={{ color: 'red' }}>*</span>}:</label>
+                    <label>First Name: <span className="required">*</span></label>
                     <input
                         type="text"
                         name="firstName"
@@ -207,11 +207,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                     />
                 </div>
                 <div>
-                    <h4>Phone Numbers:</h4>
+                    <h4>Phone Numbers: <span className="required">*</span></h4>
                     {createForm.phoneNumbers.map((phone, index) => (
                         <div key={index}>
                             <select
-                                name={`phoneType_${index}`}
+                                name="type"
                                 value={phone.type}
                                 onChange={(e) => handlePhoneNumberChange(index, e)}
                                 required
@@ -224,16 +224,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                             </select>
                             <input
                                 type="text"
-                                name={`phoneNumber_${index}`}
+                                name="number"
                                 value={phone.number}
                                 onChange={(e) => handlePhoneNumberChange(index, e)}
                                 required
                             />
-                            {index > 0 && (
-                                <button type="button" onClick={() => handleRemovePhoneNumber(index)}>
-                                    Remove
-                                </button>
-                            )}
                             {inputErrors[`phoneType_${index}`] && <span className="validation-error">{inputErrors[`phoneType_${index}`]}</span>}
                             {inputErrors[`phoneNumber_${index}`] && <span className="validation-error">{inputErrors[`phoneNumber_${index}`]}</span>}
                         </div>
@@ -252,3 +247,4 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
 }
 
 export default ContactForm;
+

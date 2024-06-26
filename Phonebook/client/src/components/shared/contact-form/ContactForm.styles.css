@@ -22,11 +22,8 @@
     font-weight: bold;
 }
 
-.contact-form-container label span.validation-error {
-    margin-left: 10px;
+.contact-form-container .required {
     color: red;
-    font-size: 16px;
-    font-weight: normal;
 }
 
 .contact-form-container input[type="text"],
@@ -61,7 +58,7 @@
 }
 
 .contact-form-container button[type="button"] {
-    background-color: #F4A460; /* Change button type color */
+    background-color: #dc3545; /* Change button type color */
     color: #fff;
 }
 
@@ -72,7 +69,7 @@
 
 .validation-error {
     color: red;
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 5px;
     margin-bottom: 0;
 }
