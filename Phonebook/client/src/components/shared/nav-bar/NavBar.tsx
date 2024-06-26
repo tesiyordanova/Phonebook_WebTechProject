@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { logout, selectUser } from '../../../store/features/userSlice';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 import './NavBar.css'; // Import your CSS file for styling
 
 const NavBar: React.FC = () => {
@@ -10,9 +12,16 @@ const NavBar: React.FC = () => {
     const isLoggedIn = !!username;
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        dispatch(logout());
-        navigate('/');
+    const handleLogout = async () => {
+        try {
+            await axios.post('/auth/logout');
+            dispatch(logout());
+            Cookies.remove('PhonebookAuth'); // Remove the authentication cookie
+            navigate('/');
+            window.location.reload(); // Force reload to ensure state is reset
+        } catch (error) {
+            console.error('Error logging out', error);
+        }
     };
 
     return (
