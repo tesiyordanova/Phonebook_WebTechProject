@@ -29,7 +29,7 @@
 .contact-form-container input[type="text"],
 .contact-form-container input[type="file"],
 .contact-form-container select {
-    width: 100%;
+    width: calc(100% - 20px); /* Adjusted to account for padding */
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -71,5 +71,5 @@
     font-size: 14px;
     margin-top: 5px;
     margin-bottom: 0;
-    display: block; /* Ensures error messages appear above the input fields */
+    text-align: left; /* Ensure the error message aligns with the input field */
 }

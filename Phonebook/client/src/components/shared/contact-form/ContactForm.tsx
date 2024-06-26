@@ -31,6 +31,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
         deletePicture: false
     });
 
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null); 
+    const fileInput = useRef<HTMLInputElement>(null);
     const [inputErrors, setInputErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
@@ -57,39 +59,35 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
         }
     }, [contact]);
 
-    const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null); 
-  
-    const fileInput = useRef<HTMLInputElement>(null);
-    
     const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files && event.target.files.length) {
-        setCreateForm({ ...createForm, pictureFile: event.target.files[0] });
-        setImagePreviewUrl(window.URL.createObjectURL(event.target.files[0]));
-      } else {
-        setCreateForm({ ...createForm, pictureFile: null });
-        setImagePreviewUrl(null);
-      }
+        if (event.target.files && event.target.files.length) {
+            setCreateForm({ ...createForm, pictureFile: event.target.files[0] });
+            setImagePreviewUrl(window.URL.createObjectURL(event.target.files[0]));
+        } else {
+            setCreateForm({ ...createForm, pictureFile: null });
+            setImagePreviewUrl(null);
+        }
     };
 
     const onRemovePictureClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      event?.preventDefault();
-      setCreateForm({ ...createForm, pictureFile: null, deletePicture: true });
-      setImagePreviewUrl(null);
-      fileInput.current!.value = '';
+        event?.preventDefault();
+        setCreateForm({ ...createForm, pictureFile: null, deletePicture: true });
+        setImagePreviewUrl(null);
+        fileInput.current!.value = '';
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setCreateForm({ ...createForm, [name]: value });
-        setInputErrors(prevErrors => ({ ...prevErrors, [name]: '' }));
-    }
+        setInputErrors({ ...inputErrors, [name]: '' });
+    };
 
     const handlePhoneNumberChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         const phoneNumbers = [...createForm.phoneNumbers];
         phoneNumbers[index] = { ...phoneNumbers[index], [name]: value };
         setCreateForm({ ...createForm, phoneNumbers });
-        setInputErrors(prevErrors => ({ ...prevErrors, [`phoneType_${index}`]: '', [`phoneNumber_${index}`]: '' }));
+        setInputErrors({ ...inputErrors, [`phoneNumbers[${index}].${name}`]: '' });
     };
 
     const handleAddPhoneNumber = () => {
@@ -99,22 +97,23 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
     const handleRemovePhoneNumber = (index: number) => {
         const phoneNumbers = createForm.phoneNumbers.filter((_, i) => i !== index);
         setCreateForm({ ...createForm, phoneNumbers });
-    }
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // Validate required fields
         const errors: { [key: string]: string } = {};
+
+        // Validate required fields
         if (!createForm.firstName.trim()) {
             errors.firstName = 'Invalid input.';
         }
-        if (!createForm.phoneNumbers.every((phone, index) => phone.type && phone.number.length === 10)) {
-            createForm.phoneNumbers.forEach((phone, index) => {
-                if (!phone.type) errors[`phoneType_${index}`] = 'Invalid input.';
-                if (phone.number.length !== 10) errors[`phoneNumber_${index}`] = 'Invalid input.';
-            });
-        }
+
+        createForm.phoneNumbers.forEach((phone, index) => {
+            if (!phone.type || phone.number.length !== 10) {
+                errors[`phoneNumbers[${index}]`] = 'Invalid input.';
+            }
+        });
 
         if (Object.keys(errors).length > 0) {
             setInputErrors(errors);
@@ -154,7 +153,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
     const handleCancel = () => {
         setInputErrors({});
         onCancel();
-    }
+    };
 
     return (
         <div className="contact-form-container">
@@ -169,7 +168,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                         onChange={handleInputChange}
                         required
                     />
-                    {inputErrors.firstName && <span className="validation-error">{inputErrors.firstName}</span>}
+                    {inputErrors.firstName && <p className="validation-error">{inputErrors.firstName}</p>}
                 </div>
                 <div>
                     <label>Last Name:</label>
@@ -183,11 +182,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                 <div>
                     <label>Picture:</label>
                     <div>
-                    { imagePreviewUrl
-                        ? <img src={imagePreviewUrl} alt="Contact image" width={'100px'} height={'100px'}/>
-                        : contact?.pictureUrl && !createForm.deletePicture
-                            ? <img src={contact?.pictureUrl} alt="Contact image" width={'100px'} height={'100px'}/>
-                            : <img src={defaultProfilePicture} alt="Contact image" width={'100px'} height={'100px'} />}
+                        { imagePreviewUrl
+                            ? <img src={imagePreviewUrl} alt="Contact image" width={'100px'} height={'100px'}/>
+                            : contact?.pictureUrl && !createForm.deletePicture
+                                ? <img src={contact?.pictureUrl} alt="Contact image" width={'100px'} height={'100px'}/>
+                                : <img src={defaultProfilePicture} alt="Contact image" width={'100px'} height={'100px'} />}
                     </div>
                     <button type="button" onClick={() => fileInput.current?.click()}>Select Picture</button>
                     <button type="button" onClick={onRemovePictureClick}>Remove Picture</button>
@@ -214,7 +213,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                     {createForm.phoneNumbers.map((phone, index) => (
                         <div key={index}>
                             <select
-                                name="type"
+                                name={`phoneNumbers[${index}].type`}
                                 value={phone.type}
                                 onChange={(e) => handlePhoneNumberChange(index, e)}
                                 required
@@ -227,13 +226,18 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                             </select>
                             <input
                                 type="text"
-                                name="number"
+                                name={`phoneNumbers[${index}].number`}
                                 value={phone.number}
                                 onChange={(e) => handlePhoneNumberChange(index, e)}
                                 required
                             />
-                            {inputErrors[`phoneType_${index}`] && <span className="validation-error">{inputErrors[`phoneType_${index}`]}</span>}
-                            {inputErrors[`phoneNumber_${index}`] && <span className="validation-error">{inputErrors[`phoneNumber_${index}`]}</span>}
+                            {inputErrors[`phoneNumbers[${index}].type`] && <p className="validation-error">{inputErrors[`phoneNumbers[${index}].type`]}</p>}
+                            {inputErrors[`phoneNumbers[${index}].number`] && <p className="validation-error">{inputErrors[`phoneNumbers[${index}].number`]}</p>}
+                            {index > 0 && (
+                                <button type="button" onClick={() => handleRemovePhoneNumber(index)}>
+                                    Remove
+                                </button>
+                            )}
                         </div>
                     ))}
                     <button type="button" onClick={handleAddPhoneNumber}>
