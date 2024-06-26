@@ -31,7 +31,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
         deletePicture: false
     });
 
-    const [inputError, setInputError] = useState<string>('');
+    const [inputErrors, setInputErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         if (contact) {
@@ -81,7 +81,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setCreateForm({ ...createForm, [name]: value });
-        setInputError('');
+        setInputErrors(prevErrors => ({ ...prevErrors, [name]: '' }));
     }
 
     const handlePhoneNumberChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -104,8 +104,16 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
         e.preventDefault();
 
         // Validate required fields
-        if (!createForm.firstName.trim() || !createForm.phoneNumbers.every(phone => phone.type && phone.number.length === 10)) {
-            setInputError('Invalid input.');
+        const errors: { [key: string]: string } = {};
+        if (!createForm.firstName.trim()) {
+            errors.firstName = 'Invalid input.';
+        }
+        if (!createForm.phoneNumbers.every(phone => phone.type && phone.number.length === 10)) {
+            errors.phoneNumbers = 'Invalid input.';
+        }
+
+        if (Object.keys(errors).length > 0) {
+            setInputErrors(errors);
             return;
         }
 
@@ -140,7 +148,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
     };
 
     const handleCancel = () => {
-        setInputError('');
+        setInputErrors({});
         onCancel();
     }
 
@@ -149,7 +157,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
             <form onSubmit={handleSubmit} noValidate>
                 <h2>{!!contact ? 'Update Contact' : 'Create Contact'}</h2>
                 <div>
-                    <label>First Name: <span className="required">*</span></label>
+                    <label>First Name: {inputErrors.firstName && <span className="validation-error">{inputErrors.firstName}</span>}</label>
                     <input
                         type="text"
                         name="firstName"
@@ -197,11 +205,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                     />
                 </div>
                 <div>
-                    <h4>Phone Numbers: <span className="required">*</span></h4>
+                    <h4>Phone Numbers:</h4>
                     {createForm.phoneNumbers.map((phone, index) => (
                         <div key={index}>
                             <select
-                                name="type"
+                                name={`phoneType_${index}`}
                                 value={phone.type}
                                 onChange={(e) => handlePhoneNumberChange(index, e)}
                                 required
@@ -214,7 +222,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                             </select>
                             <input
                                 type="text"
-                                name="number"
+                                name={`phoneNumber_${index}`}
                                 value={phone.number}
                                 onChange={(e) => handlePhoneNumberChange(index, e)}
                                 required
@@ -224,6 +232,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                                     Remove
                                 </button>
                             )}
+                            {inputErrors[`phoneType_${index}`] && <span className="validation-error">{inputErrors[`phoneType_${index}`]}</span>}
+                            {inputErrors[`phoneNumber_${index}`] && <span className="validation-error">{inputErrors[`phoneNumber_${index}`]}</span>}
                         </div>
                     ))}
                     <button type="button" onClick={handleAddPhoneNumber}>
@@ -231,7 +241,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ contact, onSubmit, onCancel }
                     </button>
                 </div>
                 <div className="bottom">
-                    {inputError && <p className="validation-error">{inputError}</p>}
+                    {inputErrors.firstName && <p className="validation-error">{inputErrors.firstName}</p>}
+                    {inputErrors.phoneNumbers && <p className="validation-error">{inputErrors.phoneNumbers}</p>}
                     <button type="submit">Save</button>
                     <button type="button" onClick={handleCancel}>Cancel</button>
                 </div>
