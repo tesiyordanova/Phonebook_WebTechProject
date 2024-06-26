@@ -1,0 +1,131 @@
+.login-container {
+    display: flex;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    background-color: #cd2828;
+}
+
+.login-left-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.136); 
+    padding: 100px;
+    max-height: 600px;
+}
+
+
+.login-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url('https://img.freepik.com/free-photo/3d-rendering-abstract-black-white-geometric-background_23-2150853539.jpg');
+    background-size: cover;
+    background-color: #1b1b1b;
+    color: white;
+    padding: 50px;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-form h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #7a1919e9;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #b7b6be;
+}
+
+.signup-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.signup-link a {
+    color: #6c63ff;
+}
+
+.login-right {
+    position: relative; 
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: url('https://media.istockphoto.com/id/477503764/video/directory-browsing.jpg?s=640x640&k=20&c=yNq02YQCaJP4GDpfH3ZONYmo9Kl_m8GK88i-u5OkD60=') no-repeat center center / cover;
+    background-color: #7a1919e9; 
+    color: rgb(128, 68, 68);
+    text-align: center;
+    padding: 40px;
+    overflow: hidden;
+}
+
+
+.login-right-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.6); 
+    padding: 100px;
+    max-height: 200px;
+    text-align: center;
+}
+
+.login-right h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #7a1919e9;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.login-right p {
+    font-size: 1.5 rem; 
+    font-weight: bold; 
+    color: #ffffff; 
+    max-width: 80%;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.login-illustration {
+    max-width: 100%;
+    height: auto;
+} 
