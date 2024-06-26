@@ -22,6 +22,11 @@
     font-weight: bold;
 }
 
+.contact-form-container .required {
+    color: red;
+    font-weight: bold;
+}
+
 .contact-form-container input[type="text"],
 .contact-form-container input[type="file"],
 .contact-form-container select {
@@ -68,7 +73,7 @@
 }
 
 .contact-form-container button[type="button"]:hover {
-    background-color: #A0522D; /* Change the hover color if needed */
+    background-color: #A0522D;
 }
 
 .bottom button[type="submit"] {
@@ -101,9 +106,8 @@
 }
 
 .bottom button[type="button"] {
-    background-color: #800000; /* Change the hover color if needed */
+    background-color: #800000; 
 }
-
 
 .contact-form-container .phone-numbers-container {
     margin-top: 15px;
@@ -140,6 +144,12 @@
 
 .contact-form-container .phone-numbers-container button:hover {
     background-color: #e0a800;
+}
+
+.validation-error {
+    color: red;
+    margin-top: 15px;
+    text-align: center;
 }
 
 .bottom{
